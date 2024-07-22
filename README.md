@@ -22,4 +22,7 @@ https://trello.com/b/bDdlIz7v/javascriptproject
 ## Figma Link :
 https://www.figma.com/design/S0LTp0Ei0aaqR4mCZw6F4s/Movie-Website-(Community)?node-id=644-11325
 
+## For more details :
+https://github.com/Obada-Jawabreh/Event-Ticketing
+
 ### You can see GTickets Website from here : 

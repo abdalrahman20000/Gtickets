@@ -15,6 +15,7 @@ GTickets was built using a modern tech stack that prioritizes scalability, flexi
 4. Firebase
 5. Trello
 6. Figma
+7. React
 
 ## Trello Link :
 [https://trello.com/b/bDdlIz7v/javascriptproject](https://trello.com/b/2sGsbyHJ/gaming-ticket)

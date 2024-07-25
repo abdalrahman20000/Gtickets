@@ -1,23 +1,52 @@
 import heroImg from "../images/heroImg.png";
 import cta from "../images/cta.png";
 import hero4 from "../images/4.png";
-
+import { Accordion } from "flowbite-react";
 import MainButton from "../Components/Buttons/MainButton";
-import { useState } from "react";
-// import hero3 from "../images/3.png";
+import { useEffect, useState } from "react";
+import Slider from "../Components/Slider";
+import { Link } from "react-router-dom";
+// ===========================================
+
+import s1_1 from "../images/slider/s1.png";
+import s1_2 from "../images/slider/s2.png";
+import s1_3 from "../images/slider/s3.png";
+import s1_4 from "../images/slider/s4.png";
+import s1_5 from "../images/slider/s5.png";
+
+// ===========================================
+
+import FetchEvents from "../Hooks/getEvents";
+import { dbURL } from "../FirebaseConfig/Config";
+import TicketCard from "../Components/TicketCard";
+// import { Link } from "react-router-dom";
+
+//============================================
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+//============================================
 
 function Home() {
+
+  useEffect(() => {
+    AOS.init({ duration: "1000", delay: "100" });
+  }, []);
+  
   return (
-    <div className="flex flex-col gap-10  mx-8 sm:mx-8 lg:mx-12 xl:mx-24">
+    <div className="flex flex-col gap-20  mx-8 sm:mx-8 lg:mx-12 xl:mx-24">
       <Hero />
+      <LogosSlider />
       <Featuers />
+      <Cards />
       <CTA />
-      <aboutUs />
+      <FAQ />
     </div>
   );
 }
 
 function Hero() {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div
       id="hero-container"
@@ -32,7 +61,7 @@ function Hero() {
         className="absolute bottom-0 right-100 w-80 md:w-96 h-96 shrink-0 rounded-full blur-3xl bg-none  sm:bg-pink-500"
       ></div>
       <div id="img" className="relative z-10">
-        <img src={heroImg} />
+        <img src={heroImg} data-aos="fade-right" />
       </div>
       <div
         id="content"
@@ -47,7 +76,17 @@ function Hero() {
             conventions around the world.
           </p>
           <div id="btns" className="w-1/2">
-            <MainButton className="font-sans">Explore Now</MainButton>
+            {user ? (
+              <Link to="/catalog">
+                {" "}
+                <MainButton className="font-sans">Explore Now</MainButton>
+              </Link>
+            ) : (
+              <Link to="/login">
+                {" "}
+                <MainButton className="font-sans">Explore Now</MainButton>
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -56,7 +95,7 @@ function Hero() {
 }
 
 function Featuers() {
-  const [featuersList, setFeatuersList] = useState({
+  const [featuersList] = useState({
     featuers: [
       {
         featuer: "  Wide Range of Events",
@@ -81,7 +120,7 @@ function Featuers() {
     ],
   });
   return (
-    <div className="pt-12">
+    <div className="pt-12" data-aos="fade-up-left">
       <div id="featuers-Hiding">
         <p className="font-sans text-text-prim font-bold text-2xl">
           Featuers For You
@@ -111,7 +150,7 @@ function FeatuerCard({ featuer, description }) {
     <div>
       <div
         id="card"
-        className=" h-full relative z-10 bg-gradient-prim rounded-2xl flex p-7 flex-col items-center gap-4 justify-between font-sans text-start align-start "
+        className=" h-full relative z-10 bg-gradient-prim rounded-2xl flex p-7 flex-col items-center gap-4  font-sans text-start align-start "
       >
         <div className="w-full">
           <p id="featuer" className="text-purple-300  text-lg bold font-bold">
@@ -131,109 +170,175 @@ function FeatuerCard({ featuer, description }) {
   );
 }
 
-function aboutUs() {
+function Cards() {
+  const [events] = FetchEvents(dbURL);
+
   return (
-    <section className="py-6 dark:bg-gray-100 text-white mt-20">
-      <div className="container flex flex-col items-center justify-center p-4 mx-auto space-y-8 sm:p-10">
-        <h1 className="text-4xl font-bold leading-none text-center sm:text-5xl">
-          Meet Our team
-        </h1>
-        <p className="max-w-2xl text-center dark:text-gray-600">
-          Skilled developers crafting seamless ticketing experiences for gaming
-          enthusiasts.
-        </p>
-        <div className="flex flex-row flex-nowrap justify-center overflow-auto">
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">
-              Obada Jawabreh
-            </p>
-            <p className="dark:text-gray-600">Scrum Master</p>
-          </div>
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">Noor Atallah</p>
-            <p className="dark:text-gray-600">Product Owner</p>
-          </div>
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">
-              Abd-alrahman Mnasour
-            </p>
-            <p className="dark:text-gray-600">QA</p>
-          </div>
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">Alaa Ata</p>
-            <p className="dark:text-gray-600">Developer</p>
-          </div>
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">
-              Mariam Khasawneh
-            </p>
-            <p className="dark:text-gray-600">Developer</p>
-          </div>
-          <div className="flex flex-col justify-center m-4 text-center">
-            <img
-              alt=""
-              className="self-center flex-shrink-0 w-24 h-24 mb-4 bg-center bg-cover rounded-full dark:bg-gray-500"
-              src={hero4}
-            />
-            <p className="text-xl font-semibold leading-tight">Hashem Frehat</p>
-            <p className="dark:text-gray-600">Developer</p>
-          </div>
-        </div>
+    <div data-aos="fade-up-right">
+      <h2 className="text-2xl font-bold mt-12 text-text-prim">
+        Currently Trending Games
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-4 gap-6 py-6">
+        {events &&
+          events
+            .slice(0, 4)
+            .map((event) => (
+              <TicketCard
+                key={event.id}
+                name={event.name}
+                startDate={event.startDate}
+                endDate={event.endDate}
+                price={event.price}
+                eventId={event.id}
+                img={event.image}
+              />
+            ))}
       </div>
-    </section>
+    </div>
   );
 }
 
 function CTA() {
+  const user = JSON.parse(localStorage.getItem("user"));
   return (
     <div
+      data-aos="flip-down"
       id="card "
       className="grid grid-cols-1 md:grid-cols-2 bg-gradient-second p-10 md:p-20 rounded-2xl "
     >
+      <div
+        id="gradiant"
+        className="absolute top-0 left-0 right-0 w-80 md:w-96 h-96 shrink-0 rounded-full blur-3xl   "
+      ></div>
       <div id="content" className="flex flex-col gap-4 justify-between">
         <div className="flex flex-col gap-5">
-          <p className="text-text-prim font-sans font-bold text-4xl">
+          <p className="text-text-prim font-sans font-bold text-2xl md:text-4xl">
             Be Part of the Biggest eGaming Events!
           </p>
-          <p className="font-sans font-medium text-text-second text-xl">
-            Create an account and get your tickets for the hottest eGaming
-            events.
-          </p>
+          {user ? (
+            <p className="font-sans font-medium text-text-second text-lg md:text-xl">
+              Get your tickets for the hottest eGaming events.
+            </p>
+          ) : (
+            <p className="font-sans font-medium text-text-second text-lg md:text-xl">
+              Create an account and get your tickets for the hottest eGaming
+              events.
+            </p>
+          )}
         </div>
         <div className="w-full md:w-1/2 ">
-          <MainButton>Available Tickets</MainButton>
+          {user ? (
+            <Link to="/catalog">
+              <MainButton>Book Now</MainButton>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <MainButton>Register Now</MainButton>
+            </Link>
+          )}
         </div>
       </div>
-      <div id="img" className="flex justify-end invisible md:visible">
+      <div
+        id="img"
+        className=" justify-end hidden md:flex invisible md:visible"
+      >
+        <div
+          id="gradiant"
+          className="absolute top-0 left-0 right-0 w-80 md:w-96 h-96 shrink-0 rounded-full blur-3xl  "
+        ></div>
         <img src={cta} className="w-1/2 h-auto" />
       </div>
     </div>
   );
 }
+
+function FAQ() {
+  return (
+    
+    <div
+      data-aos="flip-down"
+      className="flex justify-center mt-20 m-auto mb-3 w-full"
+    >
+      <Accordion className="self-center text-white bg-second-dark w-full">
+        <h1 className="text-left font-bold text-2xl ml-5 mb-4 mt-4">FAQ's</h1>
+        <Accordion.Panel className="focus:ring-transparent bg-blk">
+          <Accordion.Title className="text-white bg-blk text-sm hover:bg-blk focus:ring-transparent">
+            How do I purchase tickets for a gaming event on GTickets?
+          </Accordion.Title>
+          <Accordion.Content>
+            <p className="mb-2 text-white text-sm">
+              Visit our website at GTickets.com. Browse or search for the gaming
+              event you want to attend. Click on the event to view more details.
+              Select the number of tickets you want and click "Buy Now".
+              Complete the checkout process by entering your payment and contact
+              information. Once your purchase is complete, you will receive a
+              confirmation email with your e-tickets.
+            </p>
+          </Accordion.Content>
+        </Accordion.Panel>
+        <Accordion.Panel className="focus:ring-transparent">
+          <Accordion.Title className="text-white text-sm bg-blk hover:bg-blk focus:ring-transparent">
+            Can I get a refund or exchange my tickets if I can’t attend the
+            event?
+          </Accordion.Title>
+          <Accordion.Content>
+            <p className="mb-2 text-white text-sm">
+              Refunds and exchanges are subject to the event organizer's policy.
+              Typically, tickets are non-refundable and non-exchangeable unless
+              the event is canceled or rescheduled. Please check the specific
+              event's refund policy on the event details page or contact our
+              customer support for further assistance.Flowbite is first
+              conceptualized and designed using the Figma software so everything
+              you see in the library has a design equivalent in our Figma file.
+            </p>
+          </Accordion.Content>
+        </Accordion.Panel>
+        <Accordion.Panel className="focus:ring-transparent">
+          <Accordion.Title className="text-white bg-blk text-sm hover:bg-light focus:ring-transparent">
+            How will I receive my tickets after purchase?
+          </Accordion.Title>
+          <Accordion.Content>
+            <p className="mb-2 text-white text-sm">
+              After you complete your purchase on GTickets, you will receive an
+              email confirmation with your e-tickets attached. You can either
+              print the tickets or display them on your mobile device at the
+              event entrance. Make sure to bring a valid ID matching the name on
+              the ticket for verification.
+            </p>
+          </Accordion.Content>
+        </Accordion.Panel>
+        <Accordion.Panel className="focus:ring-transparent">
+          <Accordion.Title className="text-white text-sm bg-blk hover:bg-light focus:ring-transparent">
+            What should I do if I haven’t received my e-tickets?
+          </Accordion.Title>
+          <Accordion.Content>
+            <p className="mb-2 text-white text-sm">
+              If you haven’t received your e-tickets, please check your spam or
+              junk email folder. If they are not there, contact our customer
+              support team with your order number and email address used for the
+              purchase. We will promptly resend your tickets to ensure you
+              receive them in time for the event.
+            </p>
+          </Accordion.Content>
+        </Accordion.Panel>
+      </Accordion>
+    </div>
+  );
+}
+
+const LogosSlider = () => {
+  const slider1Images = [s1_1, s1_2, s1_3, s1_4, s1_5];
+  return (
+    <main>
+      <Slider
+        width={200}
+        height={100}
+        quantity={4}
+        images={slider1Images}
+        reverse={true}
+      />
+    </main>
+  );
+};
 
 export default Home;

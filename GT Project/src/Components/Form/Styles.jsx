@@ -10,7 +10,7 @@ export const SForm = styled.form`
 export const SFormTitle = styled.span`
   color: #c141f8;
   font-size: 48px;
-  font-weight: 600;
+  font-weight: 700;
 `;
 
 export const SFormControl = styled.div`
@@ -20,7 +20,7 @@ export const SFormControl = styled.div`
 `;
 
 export const SLable = styled.label`
-  color: #666666;
+  color: #785b96;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -66,8 +66,10 @@ export const SRedirectLabel = styled.span`
 `;
 
 export const SRedirectLink = styled(Link)`
-  color: #ff204e;
+  color: #c141f8;
+  font-weight: 600;
 `;
+
 export const STextArea = styled.textarea`
   outline: none;
   /* height: 40px; */

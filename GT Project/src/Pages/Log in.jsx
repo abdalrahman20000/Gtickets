@@ -1,3 +1,4 @@
+import login from "../images/signup3.png";
 import React, { useState } from "react";
 import {
   auth,
@@ -10,8 +11,19 @@ import axios from "axios";
 import Form from "../Components/Form/Form";
 import { GoogleBtn } from "../Components/Buttons/VerButton";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+
+// ===============================
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+
+// ===============================
 
 function Login() {
+  useEffect(() => {
+    AOS.init({ duration: "1000", delay: "100" });
+  }, []);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -64,43 +76,50 @@ function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 px-8 md:px-24 lg:px-24 gap-12 h-screen justify-center content-start py-24">
-      <div className="flex flex-col gap-6">
-        <Form
-          title={"Login"}
-          formArr={[
-            {
-              label: "Email",
-              name: "email",
-              type: "text",
-              onChange: (e) => setEmail(e.target.value),
-            },
-            {
-              label: "Password",
-              name: "password",
-              type: "password",
-              onChange: (e) => setPassword(e.target.value),
-            },
-          ]}
-          subitBtn={"Login"}
-          onSubmit={handleLogin}
-          withEvent={true}
-          redirect={{
-            label: "Don't have an account?",
-            link: {
-              label: "Register",
-              to: "/signup",
-            },
-          }}
-        />
-        {error && <div className="text-red-500">{error}</div>}
-        <GoogleBtn onClick={handleGoogleLogin} className="google-btn">
-          Sign Up with Google
-        </GoogleBtn>
+    <div className="grid grid-cols-1 lg:grid-cols-2 px-8 md:px-24 lg:px-44 gap-12  justify-center content-start py-24">
+      <div
+        className="bg-second-dark bg-gradient-prim p-4 md:p-16 rounded-xl"
+        data-aos="fade-right"
+      >
+        <div className="flex flex-col place-content-between h-full">
+          <Form
+            title={"Login"}
+            formArr={[
+              {
+                label: "Email",
+                name: "email",
+                type: "text",
+                onChange: (e) => setEmail(e.target.value),
+              },
+              {
+                label: "Password",
+                name: "password",
+                type: "password",
+                onChange: (e) => setPassword(e.target.value),
+              },
+            ]}
+            subitBtn={"Login"}
+            onSubmit={handleLogin}
+            withEvent={true}
+            redirect={{
+              label: "Don't have an account?",
+              link: {
+                label: "Register",
+                to: "/signup",
+              },
+            }}
+          />
+          <div className="flex flex-col">
+            {error && <div className="text-red-500">{error}</div>}
+            <GoogleBtn onClick={handleGoogleLogin} className="google-btn">
+              Login with Google
+            </GoogleBtn>
+          </div>
+        </div>
       </div>
-      <div className="">
+      <div className="" data-aos="fade-left">
         <img
-          src="https://i.pinimg.com/564x/89/d9/8d/89d98d4048d9700df7dda17fdb4c073a.jpg"
+          src={login}
           alt="Event"
           className="rounded-lg  invisible lg:visible"
           style={{ width: "100%", height: "auto" }}

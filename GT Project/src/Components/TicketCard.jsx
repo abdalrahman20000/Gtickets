@@ -1,21 +1,18 @@
 import MainButton from "../Components/Buttons/MainButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function TicketCard({ name, startDate, endDate, price, eventId, img }) {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
   const handleSelectTicket = (ticketId) => {
     localStorage.setItem("Event id", JSON.stringify(ticketId));
-    navigate("details");
+    navigate("/Details");
   };
 
   return (
-    // <div
-    //   id="card"
-    //   className="relative z-10 bg-second-dark rounded-2xl flex p-6 flex-col items-center gap-3 justify-between transition-transform duration-200 hover:scale-105 hover:bg-gradient-four-colors"
-    // >
     <div
       id="card"
-      className="relative z-10 bg-gradient-prim rounded-2xl flex p-6 flex-col items-center gap-3 justify-between transition-transform duration-200 hover:scale-105 hover:bg-gradient-second"
+      className="  relative z-10 bg-gradient-prim rounded-2xl flex p-6 flex-col items-center gap-3 justify-between transition-transform duration-200 hover:scale-105 hover:bg-gradient-second"
     >
       <div id="img" className="h-1/2 w-full rounded-lg overflow-hidden">
         <img
@@ -30,26 +27,34 @@ function TicketCard({ name, startDate, endDate, price, eventId, img }) {
         <div id="content" className="flex flex-col gap-1">
           <h6
             id="name"
-            className="self-stretch text-cyan-50 font-medium font-sans "
+            className="self-stretch text-text-prim font-medium font-sans "
           >
             {name}
           </h6>
-          <p id="date" className="text-sm text-slate-500 font-semibold">
+          <p id="date" className="text-sm text-text-second font-semibold">
             Start : {startDate}
             <br />
             End : {endDate}
           </p>
-          <p id="price" className="text-sm text-slate-500 font-semibold">
-            {price}
+          <p id="price" className="text-base text-text-prim font-bold">
+            ${price}
           </p>
         </div>
-        <MainButton
-          id={eventId}
-          className="flex self-stretch w-full"
-          onClick={() => handleSelectTicket(eventId)}
-        >
-          Select Ticket
-        </MainButton>
+        {user ? (
+          <MainButton
+            id={eventId}
+            className="flex self-stretch w-full"
+            onClick={() => handleSelectTicket(eventId)}
+          >
+            Select Ticket
+          </MainButton>
+        ) : (
+          <Link to="/login">
+            <MainButton id={eventId} className="flex self-stretch w-full">
+              Select Ticket
+            </MainButton>
+          </Link>
+        )}
       </div>
     </div>
   );
